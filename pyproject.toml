@@ -1,0 +1,9 @@
+[project]
+name = "360-no-scope-rl2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "godot-rl>=0.8.2",
+]
