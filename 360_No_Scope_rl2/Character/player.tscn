@@ -235,7 +235,7 @@ wait_time = 0.3
 [node name="Death_sfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_oac2d")
 
-[node name="ai" type="Node2D" parent="."]
+[node name="AI" type="Node2D" parent="."]
 script = ExtResource("4_fn4pq")
 metadata/_custom_type_script = "uid://4rv6urdmtu45"
 
