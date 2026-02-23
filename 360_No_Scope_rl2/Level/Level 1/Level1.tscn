@@ -4497,7 +4497,7 @@ shadow_offset = Vector2(2.08165e-12, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_22ult"]
 
-[node name="World" type="Node2D"]
+[node name="Level1" type="Node2D"]
 position = Vector2(3, 31)
 script = ExtResource("1_bo6o3")
 
