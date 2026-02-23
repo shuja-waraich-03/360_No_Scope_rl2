@@ -3,10 +3,22 @@ extends Node2D
 const bullet_scene: PackedScene = preload("res://Assets/Rockstar Studios/New Character Design/character_body_2d.tscn")
 var enemies = 2
 var win = false
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
+func _ready():
+	var player = get_node("MC2")
+	var ai = player.get_node_or_null("AI")
+	if ai:
+		ai.player = player
+		ai.enemy = get_node("Enemy1")
+		call_deferred("_setup_ai_mode")
+
+func _setup_ai_mode():
+	var player = get_node("MC2")
+	var ai = player.get_node("AI")
+	if ai.control_mode == 2:
+		player.ai_controlled = true
+	elif ai.control_mode == 3:
+		player.ai_controlled = true
 
 func _on_exit_pressed():
 	get_tree().change_scene_to_file("res://Menu/main_menu.tscn")

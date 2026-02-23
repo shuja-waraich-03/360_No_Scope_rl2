@@ -20,20 +20,51 @@ func _ready():
 	polygon_2d.polygon = collision_polygon_2d.polygon
 	polygon_2d2.polygon = collision_polygon_2d2.polygon
 
-	# Check if AI controller exists and set up training mode
+	# Set up AI references, then defer mode check so Sync node can set control_mode first
 	var player = get_node("MC")
 	var ai = player.get_node_or_null("AI")
 	if ai:
-		is_training = true
-		player.ai_controlled = true
 		ai.player = player
 		ai.enemy = get_node("Enemy1")
+		call_deferred("_setup_ai_mode")
+
+func _setup_ai_mode():
+	var player = get_node("MC")
+	var ai = player.get_node("AI")
+	# control_mode: 0=Inherit(Sync decides), 1=Human, 2=Training, 3=ONNX
+	# When using training scene, Sync sets mode to 2 but may not have run yet.
+	# Mode 0 means Sync is present and will drive training, so treat as training.
+	if ai.control_mode == 0 or ai.control_mode == 2:
+		is_training = true
+		player.ai_controlled = true
 		get_node("Enemy1").training_mode = true
+	elif ai.control_mode == 3:
+		player.ai_controlled = true
 
 func _on_mc_shoot(pos):
 	var bullet = bullet_scene.instantiate()
 	$Bullets.add_child(bullet)
 	bullet.position = pos + Vector2(-10, -170)
+
+	# Reward shooting — massive bonus when falling at enemy height
+	if is_training:
+		var player = get_node("MC")
+		var enemy = get_node("Enemy1")
+		if not enemy.is_dead:
+			var ai = player.get_node("AI")
+			var height_diff = abs(player.global_position.y - enemy.global_position.y)
+			var falling = not player.is_on_floor() and player.velocity.y > 0  # moving downward
+
+			if falling and height_diff < 40.0:
+				ai._reward += 1.0  # Perfect timing — falling at enemy height
+				print("PERFECT SHOT! height_diff: ", height_diff)
+			elif falling and height_diff < 80.0:
+				ai._reward += 0.4
+			elif not player.is_on_floor() and height_diff < 60.0:
+				ai._reward += 0.15  # Airborne but not falling yet
+			elif not player.is_on_floor():
+				ai._reward -= 0.05  # Airborne but bad aim — mild penalty
+			# No penalty for ground shots — let the ground penalty handle discouragement
 
 func _on_enemy_1_enemy_died():
 	pass
@@ -43,6 +74,7 @@ func _on_enemy_1_enemy_died():
 		# Give positive reward
 		var ai = player.get_node("AI")
 		ai._reward += 1.0
+		print("KILL! Reward given. Total: ", ai._reward)
 		# Reset the episode
 		call_deferred("reset_episode")
 	else:
@@ -80,13 +112,37 @@ func reset_episode():
 func _physics_process(_delta):
 	if not is_training:
 		return
-	# Check if player fell off the map or died — give negative reward and reset
 	var player = get_node_or_null("MC")
-	if not resetting and player and (player.dead or player.global_position.y > 800):
+	if not player or resetting:
+		return
+
+	# Check if player died or fell off map — mild penalty so AI isn't afraid to explore
+	if player.dead or player.global_position.y > 800:
 		resetting = true
 		var ai = player.get_node("AI")
-		ai._reward -= 1.0
+		ai._reward -= 0.1
 		call_deferred("reset_episode")
+		return
+
+	# Reward shaping — guide AI toward the cliff-jump-shoot strategy
+	var enemy = get_node("Enemy1")
+	if enemy.is_dead:
+		return
+	var ai = player.get_node("AI")
+
+	if player.is_on_floor():
+		# Penalize standing still on the ground — force exploration
+		ai._reward -= 0.002
+		# Reward for moving right toward the cliff
+		if player.velocity.x > 0:
+			ai._reward += 0.005
+	else:
+		# Big reward for being airborne — this is what we want
+		ai._reward += 0.02
+		# Even bigger bonus near enemy height
+		var height_diff = abs(player.global_position.y - enemy.global_position.y)
+		if height_diff < 60.0:
+			ai._reward += 0.05
 
 func _on_exit_pressed():
 	get_tree().change_scene_to_file("res://Menu/main_menu.tscn")

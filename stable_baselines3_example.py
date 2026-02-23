@@ -191,7 +191,7 @@ if args.resume_model_path is None:
     model: PPO = PPO(
         "MultiInputPolicy",
         env,
-        ent_coef=0.0001,
+        ent_coef=0.005,
         verbose=2,
         n_steps=32,
         tensorboard_log=args.experiment_dir,

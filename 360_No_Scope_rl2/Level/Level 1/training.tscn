@@ -28,5 +28,5 @@ zoom = Vector2(0.45, 0.3)
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("2_1m0hb")
-speed_up = 4.0
+speed_up = 20.0
 metadata/_custom_type_script = "uid://c7fkle0slbw2m"

@@ -237,6 +237,7 @@ stream = ExtResource("3_oac2d")
 
 [node name="AI" type="Node2D" parent="."]
 script = ExtResource("4_fn4pq")
+onnx_model_path = "model.onnx"
 metadata/_custom_type_script = "uid://4rv6urdmtu45"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
