@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://12y26jx8744u"]
+[gd_scene load_steps=50 format=3 uid="uid://12y26jx8744u"]
 
 [ext_resource type="Script" uid="uid://dor07tofntmkp" path="res://Level/Level 3/level3.gd" id="1_gql3o"]
 [ext_resource type="Texture2D" uid="uid://qt2ya3284fte" path="res://Assets/Rockstar Studios/Medieval Ruins Cartoon/PNG/Background/Background_01.png" id="2_1uy0g"]
@@ -22,7 +22,6 @@
 [ext_resource type="Texture2D" uid="uid://t8515y4rw4u2" path="res://Assets/Rockstar Studios/Medieval Ruins Cartoon/PNG/Platformer/Ground_02.png" id="11_v8lqw"]
 [ext_resource type="FontFile" uid="uid://bf3ftd102gqik" path="res://Menu/MedievalSharp-Bold.ttf" id="12_bjh57"]
 [ext_resource type="Texture2D" uid="uid://cbiboyndsrnhx" path="res://Assets/Rockstar Studios/Medieval Ruins Cartoon/PNG/Platformer/Ground_07.png" id="12_c66mw"]
-[ext_resource type="Script" uid="uid://c7fkle0slbw2m" path="res://addons/godot_rl_agents/sync.gd" id="23_dgie8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3edqm"]
 texture = ExtResource("5_bmyfd")
@@ -5573,12 +5572,6 @@ text = "R
 "
 
 [node name="Bullets2" type="Node" parent="."]
-
-[node name="Sync" type="Node" parent="."]
-script = ExtResource("23_dgie8")
-control_mode = 2
-onnx_model_path = "model.onnx"
-metadata/_custom_type_script = "uid://c7fkle0slbw2m"
 
 [connection signal="shoot" from="MC" to="." method="_on_mc_shoot"]
 [connection signal="pressed" from="exit" to="." method="_on_exit_pressed"]
