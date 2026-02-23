@@ -1,3 +1,32 @@
-[gd_scene format=3 uid="uid://kg0et5dn64bw"]
+[gd_scene load_steps=3 format=3 uid="uid://kg0et5dn64bw"]
+
+[ext_resource type="PackedScene" uid="uid://w5su4avq3it" path="res://Level/Level 1/Level1.tscn" id="1_eg78t"]
+[ext_resource type="Script" uid="uid://c7fkle0slbw2m" path="res://addons/godot_rl_agents/sync.gd" id="2_1m0hb"]
 
 [node name="Training" type="Node2D"]
+
+[node name="Level1" parent="." instance=ExtResource("1_eg78t")]
+
+[node name="Level2" parent="." instance=ExtResource("1_eg78t")]
+position = Vector2(849, 31)
+
+[node name="Level3" parent="." instance=ExtResource("1_eg78t")]
+position = Vector2(17, 675)
+
+[node name="Level4" parent="." instance=ExtResource("1_eg78t")]
+position = Vector2(863, 675)
+
+[node name="Level5" parent="." instance=ExtResource("1_eg78t")]
+position = Vector2(15, 1301)
+
+[node name="Level6" parent="." instance=ExtResource("1_eg78t")]
+position = Vector2(861, 1301)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(812, 908)
+zoom = Vector2(0.45, 0.3)
+
+[node name="Sync" type="Node" parent="."]
+script = ExtResource("2_1m0hb")
+speed_up = 5.0
+metadata/_custom_type_script = "uid://c7fkle0slbw2m"
