@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://kg0et5dn64bw"]
+[gd_scene load_steps=2 format=3 uid="uid://kg0et5dn64bw"]
 
 [ext_resource type="PackedScene" uid="uid://w5su4avq3it" path="res://Level/Level 1/Level1.tscn" id="1_eg78t"]
-[ext_resource type="Script" uid="uid://c7fkle0slbw2m" path="res://addons/godot_rl_agents/sync.gd" id="2_1m0hb"]
 
 [node name="Training" type="Node2D"]
 
@@ -25,8 +24,3 @@ position = Vector2(861, 1301)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(812, 908)
 zoom = Vector2(0.45, 0.3)
-
-[node name="Sync" type="Node" parent="."]
-script = ExtResource("2_1m0hb")
-speed_up = 20.0
-metadata/_custom_type_script = "uid://c7fkle0slbw2m"
