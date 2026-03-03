@@ -1,7 +1,7 @@
 [project]
 name = "360-no-scope-rl2"
 version = "0.1.0"
-description = "Add your description here"
+description = "A 2D medieval platformer where an AI agent learns to execute the perfect mid-air 360 no-scope shot using deep reinforcement learning (PPO via Stable Baselines 3 + Godot RL Agents)"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
